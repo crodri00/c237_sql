@@ -10,14 +10,14 @@ create table `Amenity` (
     Amenity varchar(50) not null
 );
 
-create table `Name` (
+create table `GuestName` (
 
 	NameID INT PRIMARY KEY AUTO_INCREMENT,
     FirstName varchar(50) not null,
     LastName varchar(50) not null
 );
 
-create table `Date` (
+create table `ReservDate` (
 
 	DateID INT PRIMARY KEY AUTO_INCREMENT,
     StartDate date not null,
@@ -48,7 +48,7 @@ create table `Guest` (
     NameID int not null,
     
     foreign key fk_Guest_NameId (NameId)
-        references Name(NameId)
+        references GuestName(NameId)
 );
 
 create table `AmenityCoupling` (
@@ -68,7 +68,7 @@ create table `Reservation` (
 
 	AdultCount int not null,
     ChildrenCount int not null,
-    TotalCost double(4,2) not null,
+    TotalCost double(6,2) not null,
     RoomID int not null,
     GuestID int not null,
     DateID int not null,
@@ -78,7 +78,7 @@ create table `Reservation` (
 	foreign key fk_Reservation_GuestId (GuestId)
         references Guest(GuestId),
 	foreign key fk_Reservation_DateId (DateId)
-        references Date(DateId)
+        references ReservDate(DateId)
 );
 
 INSERT INTO Amenity (AmenityID, Amenity) VALUES
@@ -87,7 +87,7 @@ INSERT INTO Amenity (AmenityID, Amenity) VALUES
     (3, 'Refrigerator'), 
     (4, 'Oven');
     
-INSERT INTO Name (FirstName, LastName) VALUES
+INSERT INTO GuestName (FirstName, LastName) VALUES
     ('Clarissa','Rodriguez'),
 	('Mack','Simmer'),
 	('Bettyann','Seery'),
@@ -101,7 +101,7 @@ INSERT INTO Name (FirstName, LastName) VALUES
 	('Maritza','Tilton'),
 	('Joleen','Tison');
     
-INSERT INTO Date (StartDate, EndDate) VALUES
+INSERT INTO ReservDate (StartDate, EndDate) VALUES
     ('2023-02-02', '2023-02-04'),
 	('2023-02-05', '2023-02-10'),
 	('2023-02-22', '2023-02-24'),
@@ -144,5 +144,85 @@ INSERT INTO Room (RoomID, RoomNum, RoomType, AdaAccess, StandOcc, MaxOcc, BasePr
 	(16, 308, 'Single', true, 2, 2, 149.99, NULL),
 	(17, 401, 'Suite', true, 3, 8, 399.99, 20),
 	(18, 402, 'Suite', true, 3, 8, 399.99, 20);
+    
+INSERT INTO Guest (NameId, Address, City, State, Zip, PhoneNumber) VALUES
+	(1, '1010 W 23rd St', 'Raleigh', 'NC', '27607', '832-330-8004'),
+	(2, '379 Old Shore Street', 'Council Bluffs', 'IA', '51501', '(291) 553-0508'),
+	(3, '750 Wintergreen Dr.', 'Wasilla', 'AK', '99654', '(478) 277-9632'),
+	(4, '9662 Foxrun Lane', 'Harlingen', 'TX', '78552', '(308) 494-0198'),
+	(5, '9378 W. Augusta Ave.', 'West Deptford', 'NJ', '8096', '(214) 730-0298'),
+	(6, '762 Wild Rose Street', 'Saginaw', 'MI', '48601', '(377) 507-0974'),
+	(7, '7 Poplar Dr.', 'Arvada', 'CO', '80003', '(814) 485-2615'),
+	(8, '70 Oakwood St.', 'Zion', 'IL', '60099', '(279) 491-0960'),
+	(9, '7556 Arrowhead St.', 'Cumberland', 'RI', '2864', '(446) 396-6785'),
+	(10, '77 West Surrey Street', 'Oswego', 'NY', '13126', '(834) 727-1001'),
+	(11, '939 Linda Rd.', 'Burke', 'VA', '22015', '(446) 351-6860'),
+	(12, '87 Queen St.', 'Drexel Hill', 'PA', '19026', '(231) 893-2755');
+    
+INSERT INTO AmenityCoupling (RoomID, AmenityID) VALUES
+    (1, 1),
+	(1, 2),
+	(2, 3),
+	(3, 1),
+	(3, 2),
+	(4, 3),
+	(5, 1),
+	(5, 2),
+	(5, 3),
+	(6, 1),
+	(6, 3),
+	(7, 1),
+	(7, 2),
+	(7, 3),
+	(8, 1),
+	(8, 3),
+	(9, 1),
+	(9, 2),
+	(10, 3),
+	(11, 1),
+	(11, 2),
+	(12, 3),
+	(13, 1),
+	(13, 2),
+	(13, 3),
+	(14, 1),
+	(14, 3),
+	(15, 1),
+	(15, 2),
+	(15, 3),
+	(16, 1),
+	(16, 3),
+	(17, 1),
+	(17, 3),
+	(17, 4),
+	(18, 1),
+	(18, 3);
+    
+INSERT INTO Reservation (ReservationID, AdultCount, ChildrenCount, TotalCost, RoomID, GuestID, DateID) VALUES
+    (1 ,1 ,0 ,299.98 ,16 ,2 ,1),
+	(2 ,2 ,1 ,999.95 ,3 ,3 ,2),
+	(3 ,2 ,0 ,349.98 ,13 ,4 ,3),
+	(4 ,2 ,2 ,199.99 ,1 ,5 ,4),
+	(5 ,1 ,1 ,524.97 ,15 ,1 ,5),
+	(6 ,3 ,0 ,924.95 ,10 ,6 ,6),
+	(7 ,2 ,2 ,349.98 ,2 ,7 ,7),
+	(8 ,2 ,0 ,874.95 ,12 ,8 ,8),
+	(9 ,1 ,0 ,799.96 ,9 ,9 ,9),
+	(10 ,1 ,1 ,174.99 ,7 ,10 ,10),
+	(11 ,2 ,4 ,1199.97 ,17 ,11 ,11),
+	(12 ,2 ,0 ,599.96 ,6 ,12 ,12),
+	(13 ,1 ,0 ,599.96 ,8 ,12 ,12),
+	(14 ,3 ,0 ,184.99 ,12 ,6 ,13),
+	(15 ,2 ,0 ,699.96 ,5 ,1 ,14),
+	(16 ,3 ,1 ,184.99 ,4 ,9 ,15),
+	(17 ,4 ,2 ,1259.97 ,17 ,10 ,16),
+	(18 ,2 ,1 ,199.99 ,11 ,3 ,17),
+	(19 ,1 ,0 ,349.98 ,13 ,3 ,18),
+	(20 ,2 ,0 ,149.99 ,8 ,2 ,19),
+	(21 ,2 ,2 ,399.98 ,3 ,5 ,20),
+	(22 ,2 ,2 ,1199.97 ,17 ,4 ,21),
+	(23 ,2 ,0 ,449.97 ,6 ,2 ,21),
+	(24 ,2 ,2 ,599.97 ,9 ,2 ,21),
+	(25 ,2 ,0 ,699.96 ,10 ,11 ,22);
     
     
