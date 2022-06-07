@@ -229,6 +229,135 @@ INSERT INTO Reservation (ReservationID, AdultCount, ChildrenCount, TotalCost, Ro
 	(24 ,2 ,2 ,599.97 ,9 ,2 ,21),
 	(25 ,2 ,0 ,699.96 ,10 ,11 ,22);
     
+DELETE FROM GuestName
+WHERE NameID = 8;
+
+# # # # ! ! ! ! ! DEMO OF DELETING MR PENDERGRASS # # # # # # # # 
+
+
+-- Test Query Everything of Importance --
+Select * 
+	FROM Reservation AS r
+    INNER JOIN Guest AS g ON r.GuestID = g.GuestID
+    INNER JOIN GuestName AS n ON g.NameID = n.NameID
+    INNER JOIN ReservDate AS d ON r.DateID = d.DateID
+    INNER JOIN Room AS ro ON r.RoomID = ro.RoomID;
+    
+-- Query 1 --
+
+# Write a query that returns a list of reservations 
+# that end in July 2023, including the name of the guest, 
+# the room number(s), and the reservation dates.
+
+SELECT n.FirstName, n.LastName, ro.RoomNum, d.StartDate, d.EndDate
+	FROM Reservation AS r
+    INNER JOIN Guest AS g ON r.GuestID = g.GuestID
+    INNER JOIN GuestName AS n ON g.NameID = n.NameID
+    INNER JOIN ReservDate AS d ON r.DateID = d.DateID
+    INNER JOIN Room AS ro ON r.RoomID = ro.RoomID
+    WHERE d.EndDate REGEXP '^2023-07';
+
+-- Query 2 -- 
+
+# Write a query that returns a list of all reservations for 
+# rooms with a jacuzzi, displaying the guest's name, the 
+# room number, and the dates of the reservation.
+
+SELECT
+	Reservation.ReservationID,
+    Room.RoomNum,
+	GuestName.FirstName,
+    GuestName.LastName,
+    ReservDate.StartDate,
+    ReservDate.EndDate
+FROM Reservation
+INNER JOIN GuestName ON GuestName.NameID = Reservation.GuestID
+INNER JOIN AmenityCoupling ON AmenityCoupling.RoomID = Reservation.RoomID
+INNER JOIN ReservDate ON ReservDate.DateID = Reservation.DateID
+INNER JOIN Room ON Room.RoomID = Reservation.RoomID
+WHERE AmenityCoupling.AmenityID = 2;
+
+-- Query 3 --
+# Write a query that returns all the rooms reserved for a specific 
+# guest, including the guest's name, the room(s) reserved, the 
+# starting date of the reservation, and how many people were included 
+#in the reservation. (Choose a guest's name from the existing data.)
+
+SELECT n.FirstName, n.LastName, ro.RoomNum, d.StartDate, (r.AdultCount + r.ChildrenCount) AS PeopleCount
+	FROM Reservation AS r
+    INNER JOIN Guest AS g ON r.GuestID = g.GuestID
+    INNER JOIN GuestName AS n ON g.NameID = n.NameID
+    INNER JOIN ReservDate AS d ON r.DateID = d.DateID
+    INNER JOIN Room AS ro ON r.RoomID = ro.RoomID
+	WHERE n.FirstName='Mack' AND n.LastName='Simmer';
+    
+-- Query 4 --
+
+# Write a query that returns a list of rooms, reservation ID, 
+# and per-room cost for each reservation. The results should 
+# include all rooms, whether or not there is a reservation associated with the room.
+
+CREATE VIEW TopTenRooms AS
+SELECT ro.RoomNum, r.ReservationId, r.TotalCost
+	FROM Room AS ro LEFT JOIN Reservation AS r ON ro.RoomID = r.RoomID
+    ORDER BY r.TotalCost DESC
+    LIMIT 10;
+    
+SELECT * FROM TopTenRooms;
+
+DROP VIEW TopTenRooms;
+
+
+SELECT ro.RoomNum, r.ReservationId, r.TotalCost
+	FROM Room AS ro LEFT JOIN Reservation AS r ON ro.RoomID = r.RoomID;
+    
+-- Query 5 --
+
+# Write a query that returns all the rooms accommodating at least 
+# three guests and that are reserved on any date in April 2023.
+
+SELECT ro.RoomNum
+	FROM Room AS ro 
+    INNER JOIN Reservation AS r ON ro.RoomID = r.RoomID
+	INNER JOIN ReservDate AS d ON d.DateID = r.DateID
+	WHERE (r.AdultCount + r.ChildrenCount) > 2 AND (d.StartDate REGEXP '^2023-04' OR d.EndDate REGEXP '^2023-04');
+    
+-- Query 6 --
+
+# Write a query that returns a list of all guest names and the number of 
+# reservations per guest, sorted starting with the guest with the most 
+# reservations and then by the guest's last name.
+
+CREATE VIEW TopFiveGuests AS
+SELECT n.FirstName, n.LastName, COUNT(r.ReservationId) AS Reservations
+	FROM Reservation r 
+    INNER JOIN Guest g ON r.GuestId = g.GuestId
+	INNER JOIN GuestName AS n ON n.NameID = g.NameID
+	GROUP BY  r.GuestId
+	ORDER BY COUNT(r.ReservationId) DESC,  n.LastName ASC
+    LIMIT 5;
+    
+SELECT * FROM TopFiveGuests;
+
+DROP VIEW TopFiveGuests;
+    
+
+SELECT n.FirstName, n.LastName, COUNT(r.ReservationId) AS Reservations
+	FROM Reservation r 
+    INNER JOIN Guest g ON r.GuestId = g.GuestId
+	INNER JOIN GuestName AS n ON n.NameID = g.NameID
+	GROUP BY  r.GuestId
+	ORDER BY COUNT(r.ReservationId) DESC,  n.LastName ASC;
+    
+-- Query 7 --
+
+# Write a query that displays the name, address, and phone number of 
+# a guest based on their phone number. (Choose a phone number from the existing data.)
+
+SELECT n.FirstName, n.LastName, g.Address, g.PhoneNumber 
+	FROM GuestName AS n
+    INNER JOIN Guest AS g ON n.NameID = g.NameID
+	WHERE g.PhoneNumber='832-330-8004';
 
     
     
