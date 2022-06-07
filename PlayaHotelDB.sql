@@ -49,12 +49,14 @@ create table `Guest` (
     
     foreign key fk_Guest_NameId (NameId)
         references GuestName(NameId)
+        ON DELETE CASCADE
 );
 
 create table `AmenityCoupling` (
 
+	RoomID int not null,
 	AmenityID int not null,
-    RoomID int not null,
+    
     
     foreign key fk_AmenityCoupling_AmenityId (AmenityId)
         references Amenity(AmenityId),
@@ -76,9 +78,11 @@ create table `Reservation` (
     foreign key fk_Reservation_RoomId (RoomId)
         references Room(RoomId),
 	foreign key fk_Reservation_GuestId (GuestId)
-        references Guest(GuestId),
+        references Guest(GuestId)
+        ON DELETE CASCADE,
 	foreign key fk_Reservation_DateId (DateId)
         references ReservDate(DateId)
+        ON DELETE CASCADE
 );
 
 INSERT INTO Amenity (AmenityID, Amenity) VALUES
@@ -130,34 +134,34 @@ INSERT INTO Room (RoomID, RoomNum, RoomType, AdaAccess, StandOcc, MaxOcc, BasePr
 	(2, 202, 'Double', true, 2, 4, 174.99, 10),
 	(3, 203, 'Double', false, 2, 4, 199.99, 10),
 	(4, 204, 'Double', true, 2, 4, 174.99, 10),
-	(5, 205, 'Single', false, 2, 2, 174.99, NULL),
-	(6, 206, 'Single', true, 2, 2, 149.99, NULL),
-	(7, 207, 'Single', false, 2, 2, 174.99, NULL),
-	(8, 208, 'Single', true, 2, 2, 149.99, NULL),
+	(5, 205, 'Single', false, 2, 2, 174.99, 0),
+	(6, 206, 'Single', true, 2, 2, 149.99, 0),
+	(7, 207, 'Single', false, 2, 2, 174.99, 0),
+	(8, 208, 'Single', true, 2, 2, 149.99, 0),
 	(9, 301, 'Double', false, 2, 4, 199.99, 10),
 	(10, 302, 'Double', true, 2, 4, 174.99, 10),
 	(11, 303, 'Double', false, 2, 4, 199.99, 10),
 	(12, 304, 'Double', true, 2, 4, 174.99, 10),
-	(13, 305, 'Single', false, 2, 2, 174.99, NULL),
-	(14, 306, 'Single', true, 2, 2, 149.99, NULL),
-	(15, 307, 'Single', false, 2, 2, 174.99, NULL),
-	(16, 308, 'Single', true, 2, 2, 149.99, NULL),
+	(13, 305, 'Single', false, 2, 2, 174.99, 0),
+	(14, 306, 'Single', true, 2, 2, 149.99, 0),
+	(15, 307, 'Single', false, 2, 2, 174.99, 0),
+	(16, 308, 'Single', true, 2, 2, 149.99, 0),
 	(17, 401, 'Suite', true, 3, 8, 399.99, 20),
 	(18, 402, 'Suite', true, 3, 8, 399.99, 20);
     
 INSERT INTO Guest (NameId, Address, City, State, Zip, PhoneNumber) VALUES
 	(1, '1010 W 23rd St', 'Raleigh', 'NC', '27607', '832-330-8004'),
-	(2, '379 Old Shore Street', 'Council Bluffs', 'IA', '51501', '(291) 553-0508'),
-	(3, '750 Wintergreen Dr.', 'Wasilla', 'AK', '99654', '(478) 277-9632'),
-	(4, '9662 Foxrun Lane', 'Harlingen', 'TX', '78552', '(308) 494-0198'),
-	(5, '9378 W. Augusta Ave.', 'West Deptford', 'NJ', '8096', '(214) 730-0298'),
-	(6, '762 Wild Rose Street', 'Saginaw', 'MI', '48601', '(377) 507-0974'),
-	(7, '7 Poplar Dr.', 'Arvada', 'CO', '80003', '(814) 485-2615'),
-	(8, '70 Oakwood St.', 'Zion', 'IL', '60099', '(279) 491-0960'),
-	(9, '7556 Arrowhead St.', 'Cumberland', 'RI', '2864', '(446) 396-6785'),
-	(10, '77 West Surrey Street', 'Oswego', 'NY', '13126', '(834) 727-1001'),
-	(11, '939 Linda Rd.', 'Burke', 'VA', '22015', '(446) 351-6860'),
-	(12, '87 Queen St.', 'Drexel Hill', 'PA', '19026', '(231) 893-2755');
+	(2, '379 Old Shore Street', 'Council Bluffs', 'IA', '51501', '291 553-0508'),
+	(3, '750 Wintergreen Dr.', 'Wasilla', 'AK', '99654', '478-277-9632'),
+	(4, '9662 Foxrun Lane', 'Harlingen', 'TX', '78552', '308-494-0198'),
+	(5, '9378 W. Augusta Ave.', 'West Deptford', 'NJ', '08096', '214-730-0298'),
+	(6, '762 Wild Rose Street', 'Saginaw', 'MI', '48601', '377-507-0974'),
+	(7, '7 Poplar Dr.', 'Arvada', 'CO', '80003', '814-485-2615'),
+	(8, '70 Oakwood St.', 'Zion', 'IL', '60099', '279-491-0960'),
+	(9, '7556 Arrowhead St.', 'Cumberland', 'RI', '02864', '446-396-6785'),
+	(10, '77 West Surrey Street', 'Oswego', 'NY', '13126', '834-727-1001'),
+	(11, '939 Linda Rd.', 'Burke', 'VA', '22015', '446-351-6860'),
+	(12, '87 Queen St.', 'Drexel Hill', 'PA', '19026', '231-893-2755');
     
 INSERT INTO AmenityCoupling (RoomID, AmenityID) VALUES
     (1, 1),
@@ -224,5 +228,7 @@ INSERT INTO Reservation (ReservationID, AdultCount, ChildrenCount, TotalCost, Ro
 	(23 ,2 ,0 ,449.97 ,6 ,2 ,21),
 	(24 ,2 ,2 ,599.97 ,9 ,2 ,21),
 	(25 ,2 ,0 ,699.96 ,10 ,11 ,22);
+    
+
     
     
