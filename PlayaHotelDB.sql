@@ -151,7 +151,7 @@ INSERT INTO Room (RoomID, RoomNum, RoomType, AdaAccess, StandOcc, MaxOcc, BasePr
     
 INSERT INTO Guest (NameId, Address, City, State, Zip, PhoneNumber) VALUES
 	(1, '1010 W 23rd St', 'Raleigh', 'NC', '27607', '832-330-8004'),
-	(2, '379 Old Shore Street', 'Council Bluffs', 'IA', '51501', '291 553-0508'),
+	(2, '379 Old Shore Street', 'Council Bluffs', 'IA', '51501', '291-553-0508'),
 	(3, '750 Wintergreen Dr.', 'Wasilla', 'AK', '99654', '478-277-9632'),
 	(4, '9662 Foxrun Lane', 'Harlingen', 'TX', '78552', '308-494-0198'),
 	(5, '9378 W. Augusta Ave.', 'West Deptford', 'NJ', '08096', '214-730-0298'),
