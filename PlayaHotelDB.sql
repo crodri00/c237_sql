@@ -232,6 +232,10 @@ INSERT INTO Reservation (ReservationID, AdultCount, ChildrenCount, TotalCost, Ro
 DELETE FROM GuestName
 WHERE NameID = 8;
 
+SELECT * FROM GuestName;
+SELECT * FROM Guest;
+SELECT * FROM Reservation where Reservation.GuestID = 8;
+
 # # # # ! ! ! ! ! DEMO OF DELETING MR PENDERGRASS # # # # # # # # 
 
 
